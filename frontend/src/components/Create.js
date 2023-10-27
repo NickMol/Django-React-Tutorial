@@ -1,17 +1,49 @@
 
-import {React} from 'react' 
+import {React, useState} from 'react' 
 import { Box, Button, Typography } from '@mui/material'
 import MyDatePickerField from './forms/MyDatePickerField'
 import MyTextField from './forms/MyTextField'
 import MySelectField from './forms/MySelectField'
 import MyMultiLineField from './forms/MyMultilineField'
 import {useForm} from 'react-hook-form'
-
+import AxiosInstance from './Axios'
+import Dayjs from 'dayjs'
+import {useNavigate} from 'react-router-dom'
 
 const Create = () => {
- 
-  const {handleSubmit, reset, setValue, control} = useForm()
-  const submission = (data) => console.log(data)
+
+  const navigate = useNavigate()
+  const defaultValues = {
+    name : '', 
+    comments: '', 
+    status: '', 
+    
+  }
+
+
+
+
+  const {handleSubmit, reset, setValue, control} = useForm({defaultValues:defaultValues})
+    const submission = (data) => 
+    {
+      const StartDate = Dayjs(data.start_date["$d"]).format("YYYY-MM-DD")
+      const EndDate = Dayjs(data.end_date["$d"]).format("YYYY-MM-DD")
+      
+      AxiosInstance.post( `project/`,{
+        name: data.name,
+        status: data.status,
+        comments: data.comments, 
+        start_date: StartDate, 
+        end_date: EndDate,
+
+      })
+
+      .then((res) =>{
+        navigate(`/`)
+      })
+
+
+    }
   
   return (
     <div>
