@@ -5,7 +5,7 @@ import { MaterialReactTable } from 'material-react-table';
 import Dayjs from 'dayjs';
 import { Box, IconButton } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
@@ -67,10 +67,10 @@ const Home = () => {
             columns={columns} 
             data={myData} 
             enableRowActions
-            renderRowActions={() => (
+            renderRowActions={({row}) => (
               <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
 
-                  <IconButton color="secondary">
+                  <IconButton color="secondary" component={Link} to={`/edit/${row.original.id}`}>
                     <EditIcon />
                   </IconButton>
 
