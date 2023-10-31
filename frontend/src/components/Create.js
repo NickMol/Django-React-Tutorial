@@ -1,5 +1,5 @@
 
-import {React, useState} from 'react' 
+import {React} from 'react' 
 import { Box, Button, Typography } from '@mui/material'
 import MyDatePickerField from './forms/MyDatePickerField'
 import MyTextField from './forms/MyTextField'
@@ -20,10 +20,7 @@ const Create = () => {
     
   }
 
-
-
-
-  const {handleSubmit, reset, setValue, control} = useForm({defaultValues:defaultValues})
+  const {handleSubmit, control} = useForm({defaultValues:defaultValues})
     const submission = (data) => 
     {
       const StartDate = Dayjs(data.start_date["$d"]).format("YYYY-MM-DD")
