@@ -62,7 +62,7 @@ TEMPLATES = [
             ],
         },
     },
-]
+] 
 
 WSGI_APPLICATION = 'crud.wsgi.application'
 
