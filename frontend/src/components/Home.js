@@ -5,14 +5,13 @@ import { MaterialReactTable } from 'material-react-table';
 import Dayjs from 'dayjs';
 import { Box, IconButton } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom'
 
 const Home = () => {
 
 
   const [myData,setMydata] = useState()
   const [loading,setLoading] = useState(true)
- 
 
   const GetData = () => {
     AxiosInstance.get(`project/`).then((res) =>{
@@ -70,11 +69,11 @@ const Home = () => {
             renderRowActions={({row}) => (
               <Box sx={{ display: 'flex', flexWrap: 'nowrap', gap: '8px' }}>
 
-                  <IconButton color="secondary" component={Link} to={`/edit/${row.original.id}`}>
+                  <IconButton color="secondary" component={Link} to={`edit/${row.original.id}`}>
                     <EditIcon />
                   </IconButton>
 
-                  <IconButton color="error">
+                  <IconButton color="error" component={Link} to={`delete/${row.original.id}`}>
                       <DeleteIcon />
                   </IconButton>
             </Box>

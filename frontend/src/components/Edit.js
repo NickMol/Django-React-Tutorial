@@ -1,5 +1,5 @@
 
-import {React, useEffect, useState} from 'react' 
+import {React, useEffect} from 'react' 
 import { Box, Button, Typography } from '@mui/material'
 import MyDatePickerField from './forms/MyDatePickerField'
 import MyTextField from './forms/MyTextField'
@@ -8,26 +8,20 @@ import MyMultiLineField from './forms/MyMultilineField'
 import {useForm} from 'react-hook-form'
 import AxiosInstance from './Axios'
 import Dayjs from 'dayjs'
-import {useNavigate, useParams } from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 
 const Edit = () => {
-
-  const navigate = useNavigate()
-  const getParams = useParams()
-  const myId = getParams.id
-
-  const [loading,setLoading] = useState(true)
+  const MyParam = useParams()
+  const MyId = MyParam.id
 
   const GetData = () => {
-    AxiosInstance.get(`project/${myId}`).then((res) =>{
+    AxiosInstance.get(`project/${MyId}`).then((res) =>{
       console.log(res.data)
-      setValue('name', res.data.name);
-      setValue('comments', res.data.comments);
-      setValue('status', res.data.status);
-      setValue('start_date', Dayjs(res.data.start_date));
-      setValue('end_date', Dayjs(res.data.end_date));
-
-      setLoading(false)
+      setValue('name',res.data.name)
+      setValue('status',res.data.status)
+      setValue('comments',res.data.comments)
+      setValue('start_date',Dayjs(res.data.start_date))
+      setValue('end_date',Dayjs(res.data.end_date))
  
     })
 
@@ -37,6 +31,7 @@ const Edit = () => {
     GetData();
   },[] )
 
+  const navigate = useNavigate()
   const defaultValues = {
     name : '', 
     comments: '', 
@@ -44,19 +39,19 @@ const Edit = () => {
     
   }
 
-  const {handleSubmit, setValue,  control} = useForm({defaultValues:defaultValues})
-  const submission = (data) => 
+  const {handleSubmit, setValue, control} = useForm({defaultValues:defaultValues})
+    const submission = (data) => 
     {
       const StartDate = Dayjs(data.start_date["$d"]).format("YYYY-MM-DD")
       const EndDate = Dayjs(data.end_date["$d"]).format("YYYY-MM-DD")
       
-      AxiosInstance.put( `project/${myId}/`,{
+      AxiosInstance.put( `project/${MyId}/`,{
         name: data.name,
         status: data.status,
         comments: data.comments, 
         start_date: StartDate, 
         end_date: EndDate,
- 
+
       })
 
       .then((res) =>{
@@ -68,7 +63,6 @@ const Edit = () => {
   
   return (
     <div>
-      { loading ? <p>Loading...</p> :
       <form onSubmit={handleSubmit(submission)}>
 
       <Box sx={{display:'flex', justifyContent:'space-between',width:'100%', backgroundColor:'#00003f', marginBottom:'10px'}}>
@@ -134,7 +128,7 @@ const Edit = () => {
       </Box>
 
       </form>
-      }
+
   
     </div>
   )
