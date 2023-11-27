@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import {Controller} from 'react-hook-form'
 
 export default function MyTextField(props) {
-  const {label, width, placeholder, name, errormessage,thehelpertext,control} = props
+  const {label, width, placeholder, name, control} = props
   return (
       
       <Controller
@@ -11,7 +11,7 @@ export default function MyTextField(props) {
         control = {control}
         render= {({
             field:{onChange, value}, 
-            fieldState:{error}, 
+            fieldState: { error },
             formState,
         }) => (
             <TextField 
@@ -21,8 +21,8 @@ export default function MyTextField(props) {
             id="standard-basic" 
             label={label}
             variant="standard" 
-            error = {errormessage}
-            helperText={thehelpertext}
+            error={!!error}
+            helperText= {error?.message}
             placeholder = {placeholder}
             />
         )

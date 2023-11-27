@@ -24,14 +24,17 @@ const Create = () => {
 
   const schema = yup
   .object({
-    name: yup.string().required('Name is required'),
-    status: yup.string().required('Status is required'),
-    start_date: yup.date().required(),
-    end_date: yup.date().required('End date is required').min(yup.ref('start_date'), 'End date must be after or equal to start date'),
-    comments: yup.string(),
+    name: yup.string().required('Name is a required field'),
+    status: yup.string().required('Status date is a required field'), 
+    comments: yup.string(), 
+    start_date: yup.date().required('Start date is a required field'),
+    end_date:yup.date().required('End date is a required field').min(yup.ref('start_date'),'The end date needs to be equal to or after the start date')
   })
 
-  const {handleSubmit, control, formState: { errors }} = useForm({defaultValues:defaultValues, resolver: yupResolver(schema)})
+
+  const {handleSubmit, control} = useForm({defaultValues:defaultValues, resolver : yupResolver(schema)})
+
+
     const submission = (data) => 
     {
       const StartDate = Dayjs(data.start_date["$d"]).format("YYYY-MM-DD")
@@ -73,8 +76,7 @@ const Create = () => {
                 control={control}
                 placeholder="Provide a project name"
                 width={'30%'}
-                errormessage = {!!errors.name}
-                thehelpertext = {errors?.name ? errors.name.message : null}
+                
               />
 
               <MyDatePickerField
@@ -82,8 +84,7 @@ const Create = () => {
                 name="start_date"
                 control={control}
                 width={'30%'}
-                errormessage = {!!errors.start_date}
-                thehelpertext = {errors?.start_date ? errors.start_date.message : null}
+
               />
 
               <MyDatePickerField
@@ -91,8 +92,7 @@ const Create = () => {
                 name="end_date"
                 control={control}
                 width={'30%'}
-                errormessage = {!!errors.end_date}
-                thehelpertext = {errors?.end_date ? errors.end_date.message : null}
+
               />
 
           </Box>
@@ -104,8 +104,7 @@ const Create = () => {
                 control={control}
                 placeholder="Provide project comments"
                 width={'30%'}
-                errormessage = {!!errors.comments}
-                thehelpertext = {errors?.comments ? errors.comments.message : null}
+                
               />
 
               <MySelectField
@@ -113,8 +112,7 @@ const Create = () => {
                 name="status"
                 control={control}
                 width={'30%'}
-                errormessage = {!!errors.status}
-                thehelpertext = {errors?.status ? errors.status.message : null}
+                
               />
 
               <Box sx={{width:'30%'}}>
