@@ -24,11 +24,12 @@ export default function MyDatePickerField(props) {
                     onChange={onChange}
                     value={value}
                     slotProps={{
-                      textField:{
-                        error:!!error,
-                        helperText:error?.message
-                      }
-                    }}
+                        textField:{
+                          error: !!error, 
+                          helperText: error?.message,
+                        }
+
+                    }}  
                     />
         )
         }

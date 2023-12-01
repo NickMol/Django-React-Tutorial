@@ -21,9 +21,9 @@ export default function MyTextField(props) {
             id="standard-basic" 
             label={label}
             variant="standard" 
-            error={!!error}
-            helperText= {error?.message}
             placeholder = {placeholder}
+            error = {!!error}
+            helperText = {error?.message}
             />
         )
         }

@@ -1,5 +1,5 @@
 
-import {React} from 'react' 
+import {React, useEffect, useState} from 'react' 
 import { Box, Button, Typography } from '@mui/material'
 import MyDatePickerField from './forms/MyDatePickerField'
 import MyTextField from './forms/MyTextField'
@@ -14,6 +14,28 @@ import * as yup from "yup"
 
 const Create = () => {
 
+  const [projectmanager,setProjectmanager] = useState()
+  const [loading,setLoading] = useState(true)
+
+  const hardcoded_options = [
+    {id:'', name:'None'}, 
+    {id:'Open', name:'Open'}, 
+    {id:'In progress', name:'In progress'}, 
+    {id:'Completed', name:'Completed'}, 
+  ]
+
+  const GetData = () => {
+    AxiosInstance.get(`projectmanager/`).then((res) =>{
+      setProjectmanager(res.data)
+      console.log(res.data)
+      setLoading(false)
+    })
+  }
+
+  useEffect(() => {
+    GetData();
+  },[] )
+
   const navigate = useNavigate()
   const defaultValues = {
     name : '', 
@@ -25,14 +47,15 @@ const Create = () => {
   const schema = yup
   .object({
     name: yup.string().required('Name is a required field'),
-    status: yup.string().required('Status date is a required field'), 
+    projectmanager: yup.string().required('Project manager is a required field'),
+    status: yup.string().required('Status is a required field'),
     comments: yup.string(), 
-    start_date: yup.date().required('Start date is a required field'),
-    end_date:yup.date().required('End date is a required field').min(yup.ref('start_date'),'The end date needs to be equal to or after the start date')
+    start_date: yup.date().required('Start date is a required field'), 
+    end_date: yup.date().required('End date is a required field').min(yup.ref('start_date'),'The end date can not be before the start date'), 
   })
 
 
-  const {handleSubmit, control} = useForm({defaultValues:defaultValues, resolver : yupResolver(schema)})
+  const {handleSubmit, control} = useForm({defaultValues:defaultValues, resolver: yupResolver(schema)})
 
 
     const submission = (data) => 
@@ -42,6 +65,7 @@ const Create = () => {
       
       AxiosInstance.post( `project/`,{
         name: data.name,
+        projectmanager: data.projectmanager,
         status: data.status,
         comments: data.comments, 
         start_date: StartDate, 
@@ -58,6 +82,8 @@ const Create = () => {
   
   return (
     <div>
+
+    { loading ? <p>Loading data...</p> :
       <form onSubmit={handleSubmit(submission)}>
 
       <Box sx={{display:'flex', justifyContent:'space-between',width:'100%', backgroundColor:'#00003f', marginBottom:'10px'}}>
@@ -112,22 +138,30 @@ const Create = () => {
                 name="status"
                 control={control}
                 width={'30%'}
-                
+                options = {hardcoded_options}
               />
 
-              <Box sx={{width:'30%'}}>
 
-                <Button variant="contained" type="submit" sx={{width:'100%'}}>
+                <MySelectField
+                  label="Project manager"
+                  name="projectmanager"
+                  control={control}
+                  width={'30%'}
+                  options = {projectmanager}
+                />
+
+    
+          </Box>
+
+          <Box sx={{display:'flex', justifyContent:'start', marginTop:'40px'}}> 
+                <Button variant="contained" type="submit" sx={{width:'30%'}}>
                    Submit
                 </Button>
-
-              </Box>
-
           </Box>
 
       </Box>
 
-      </form>
+      </form> }
 
   
     </div>

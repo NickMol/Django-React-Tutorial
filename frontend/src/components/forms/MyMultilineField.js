@@ -25,8 +25,8 @@ export default function MyMultiLineField(props) {
             rows={1}
             variant="standard"
             placeholder = {placeholder}
-            error={!!error}
-            helperText= {error?.message}
+            error = {!!error}
+            helperText = {error?.message}
           />
 
           )

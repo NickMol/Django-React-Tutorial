@@ -9,13 +9,13 @@ import FormHelperText from '@mui/material/FormHelperText';
 export default function MySelectField(props) {
   
   const [age, setAge] = React.useState('');
-  const {label, name, control, width,errormessage,helpertextmessage  } = props
+  const {label, name, control, width, options} = props
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
   return (
-           
+        
             <Controller
                 name = {name}
                 control = {control}
@@ -34,27 +34,23 @@ export default function MySelectField(props) {
                         id="demo-simple-select-filled"
                         onChange={onChange}
                         value={value}
-                        error={!!error}
-           
+                        error = {!!error}
                         >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={"Open"}>Open</MenuItem>
-                        <MenuItem value={"In progress"}>In progress</MenuItem>
-                        <MenuItem value={"Completed"}>Completed</MenuItem>
+                        {
+                            options.map((option) =>(
+                                <MenuItem value={option.id}>{option.name} </MenuItem>
+                            ))
+                        }
                     </Select>
 
                     <FormHelperText sx={{color:"#d32f2f"}}> {error?.message} </FormHelperText>
-                    </FormControl>
- 
+
+                </FormControl>
+
                 )
                 }
                 />
-            
         
-        
-     
 
   );
 }
